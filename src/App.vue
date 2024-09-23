@@ -11,7 +11,8 @@
 // import '@/tutorial/10.Threejs常见几何体简介'
 // import '@/tutorial/12.WebGL渲染器设置(锯齿模糊、背景颜色)'
 // import '@/tutorial/13.gui.js库(可视化改变三维场景)'
-import '@/tutorial/14.gui.js库(颜色、命名、步长、事件)'
+// import '@/tutorial/14.gui.js库(颜色、命名、步长、事件)'
+import '@/tutorial/15.gui.js库(下拉菜单、单选框、分组)'
 </script>
 
 <template>
