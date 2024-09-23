@@ -6,7 +6,8 @@
 // import '@/tutorial/05.平行光与环境光'
 // import '@/tutorial/06.动画渲染'
 // import '@/tutorial/07.全屏和动态修改canvas宽高比'
-import '@/tutorial/08.stats查看帧率'
+// import '@/tutorial/08.stats查看帧率'
+import '@/tutorial/09.阵列立方体和相机适配体验'
 </script>
 
 <template>
