@@ -9,7 +9,7 @@
 // import '@/tutorial/08.stats查看帧率'
 // import '@/tutorial/09.阵列立方体和相机适配体验'
 // import '@/tutorial/10.Threejs常见几何体简介'
-import '@/tutorial/11.高光网格材质MeshPhongMaterial'
+import '@/tutorial/12.WebGL渲染器设置(锯齿模糊、背景颜色)'
 </script>
 
 <template>
