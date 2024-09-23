@@ -8,7 +8,8 @@
 // import '@/tutorial/07.全屏和动态修改canvas宽高比'
 // import '@/tutorial/08.stats查看帧率'
 // import '@/tutorial/09.阵列立方体和相机适配体验'
-import '@/tutorial/10.Threejs常见几何体简介'
+// import '@/tutorial/10.Threejs常见几何体简介'
+import '@/tutorial/11.高光网格材质MeshPhongMaterial'
 </script>
 
 <template>
