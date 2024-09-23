@@ -5,7 +5,8 @@
 // import '@/tutorial/04.相机控件轨道器OrbitControls'
 // import '@/tutorial/05.平行光与环境光'
 // import '@/tutorial/06.动画渲染'
-import '@/tutorial/07.全屏和动态修改canvas宽高比'
+// import '@/tutorial/07.全屏和动态修改canvas宽高比'
+import '@/tutorial/08.stats查看帧率'
 </script>
 
 <template>
