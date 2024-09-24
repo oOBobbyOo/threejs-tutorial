@@ -29,9 +29,13 @@ const attribute = new THREE.BufferAttribute(vertices, 3)
 // 设置几何体attribute属性的位置
 geometry.attributes.position = attribute
 
+// https://threejs.org/docs/index.html#api/zh/constants/Materials
+// 正面：逆时针
+// 反面：顺时针
 const material = new THREE.MeshBasicMaterial({
   color: 0x00ff00, 
   // side: THREE.FrontSide // 默认只有正面可见
+  // side: THREE.BackSide // 反面可见
   side: THREE.DoubleSide // 设置平面图形两边可见
 })
 
