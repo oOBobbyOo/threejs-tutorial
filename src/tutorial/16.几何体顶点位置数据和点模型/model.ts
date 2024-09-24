@@ -4,24 +4,12 @@ import * as THREE from 'three'
 const geometry = new THREE.BufferGeometry()
 
 const vertices = new Float32Array([
-  20,
-  20,
-  10, //顶点1坐标
-  250,
-  0,
-  0, //顶点2坐标
-  0,
-  100,
-  0, //顶点3坐标
-  0,
-  0,
-  10, //顶点4坐标
-  0,
-  0,
-  100, //顶点5坐标
-  50,
-  0,
-  10 //顶点6坐标
+  20, 20, 10, //顶点1坐标
+  250, 0, 0, //顶点2坐标
+  0, 100, 0, //顶点3坐标
+  0, 0, 10, //顶点4坐标
+  0, 0, 100, //顶点5坐标
+  50, 0, 10 //顶点6坐标
 ])
 
 const attribute = new THREE.BufferAttribute(vertices, 3)
