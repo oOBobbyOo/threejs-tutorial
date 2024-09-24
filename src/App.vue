@@ -14,7 +14,8 @@
 // import '@/tutorial/14.gui.js库(颜色、命名、步长、事件)'
 // import '@/tutorial/15.gui.js库(下拉菜单、单选框、分组)'
 // import '@/tutorial/16.几何体顶点位置数据和点模型'
-import '@/tutorial/17.线模型Line渲染顶点数据'
+// import '@/tutorial/17.线模型Line渲染顶点数据'
+import '@/tutorial/18.网格模型(三角形概念)'
 </script>
 
 <template>
