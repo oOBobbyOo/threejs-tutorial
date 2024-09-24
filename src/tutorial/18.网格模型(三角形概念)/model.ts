@@ -30,7 +30,9 @@ const attribute = new THREE.BufferAttribute(vertices, 3)
 geometry.attributes.position = attribute
 
 const material = new THREE.MeshBasicMaterial({
-  color: 0x00ff00
+  color: 0x00ff00, 
+  // side: THREE.FrontSide // 默认只有正面可见
+  side: THREE.DoubleSide // 设置平面图形两边可见
 })
 
 const mesh = new THREE.Mesh(geometry, material)
