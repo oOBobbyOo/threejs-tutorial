@@ -21,7 +21,8 @@
 // import '@/tutorial/21.顶点法线数据'
 // import '@/tutorial/22.几何体旋转、平移、缩放'
 // import '@/tutorial/23.加载GLTF模型'
-import '@/tutorial/24.加载GLB压缩模型'
+// import '@/tutorial/24.加载GLB压缩模型'
+import '@/tutorial/25.模型线框'
 </script>
 
 <template>
