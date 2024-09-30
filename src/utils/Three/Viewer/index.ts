@@ -12,7 +12,7 @@ import {
 } from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import Stats from 'three/addons/libs/stats.module.js'
-
+import SkyBoxs from '../SkyBoxs'
 
 export default class Viewer {
   public id: string
@@ -21,9 +21,11 @@ export default class Viewer {
   public camera!: PerspectiveCamera
   public renderer!: WebGLRenderer
   public controls!: OrbitControls
+  public skyboxs!: SkyBoxs
   public statsControls!: Stats
   public raycaster!: Raycaster
   public mouse!: Vector2
+  public isDestroy: boolean = false
 
   constructor(id: string) {
     Cache.enabled = true // 开启缓存
@@ -37,12 +39,23 @@ export default class Viewer {
     this.#initLight()
     this.#initCamera()
     this.#initControl()
+    this.#initSkybox()
     this.#initRaycaster()
 
     this.mouse = new Vector2()
+
+    const animate = () => {
+      if (this.isDestroy) return
+      requestAnimationFrame(animate)
+
+      this.updateDom()
+      this.readerDom()
+    }
+
+    animate()
   }
 
-  // 创建初始化场景界面
+  // 初始化场景界面
   #initRenderer() {
     // 获取画布dom
     this.viewerDom = document.getElementById(this.id) as HTMLElement
@@ -103,6 +116,13 @@ export default class Viewer {
     })
   }
 
+  // 初始化天空盒
+  #initSkybox() {
+    if (!this.skyboxs) this.skyboxs = new SkyBoxs(this)
+    this.skyboxs.addSkybox('night')
+    this.skyboxs.addFog()
+  }
+
   // 初始化灯光
   #initLight() {
     // 创建环境光
@@ -129,6 +149,28 @@ export default class Viewer {
   // 注册鼠标事件监听
   #initRaycaster() {
     this.raycaster = new Raycaster()
+  }
+
+  // 渲染dom
+  readerDom() {
+    this.renderer?.render(this.scene, this.camera)
+  }
+
+  // 更新dom
+  updateDom() {
+    this.controls.update()
+    // 重置相机的宽高比
+    this.camera.aspect =
+      this.viewerDom.clientWidth / this.viewerDom.clientHeight // 摄像机视锥体的长宽比，通常是使用画布的宽/画布的高
+    // 更新相机的投影矩阵
+    this.camera.updateProjectionMatrix() // 在任何参数被改变以后必须被调用,来使得这些改变生效
+    // 重置渲染器的宽高比
+    this.renderer.setSize(
+      this.viewerDom.clientWidth,
+      this.viewerDom.clientHeight
+    )
+    // 设置设备像素比
+    this.renderer.setPixelRatio(window.devicePixelRatio)
   }
 
   // 添加坐标轴辅助器
