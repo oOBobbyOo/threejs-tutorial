@@ -1,8 +1,6 @@
 import {
-  AmbientLight,
   AxesHelper,
   Cache,
-  DirectionalLight,
   PerspectiveCamera,
   Raycaster,
   Scene,
@@ -12,13 +10,16 @@ import {
 } from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import Stats from 'three/addons/libs/stats.module.js'
-import SkyBoxs from '../SkyBoxs'
+
 import type { Animate } from '../type'
+import SkyBoxs from '../SkyBoxs'
+import Lights from '../Lights'
 
 export default class Viewer {
   public id: string
   public viewerDom!: HTMLElement
   public scene!: Scene
+  public lights!: Lights
   public camera!: PerspectiveCamera
   public renderer!: WebGLRenderer
   public controls!: OrbitControls
@@ -133,25 +134,9 @@ export default class Viewer {
 
   // 初始化灯光
   #initLight() {
-    // 创建环境光
-    const ambient = new AmbientLight(0xffffff, 0.6)
-    // 添加环境光到场景中
-    this.scene.add(ambient)
-
-    // 创建平行光
-    const light = new DirectionalLight(0xffffff)
-    light.position.set(0, 200, 100)
-    light.castShadow = true
-    light.shadow.camera.top = 180
-    light.shadow.camera.bottom = -100
-    light.shadow.camera.left = -120
-    light.shadow.camera.right = 400
-    light.shadow.camera.near = 0.1
-    light.shadow.camera.far = 400
-    // 设置mapSize属性可以使阴影更清晰，不那么模糊
-    light.shadow.mapSize.set(1024, 1024)
-    // 添加平行光到场景中
-    this.scene.add(light)
+    if (!this.lights) {
+      this.lights = new Lights(this)
+    }
   }
 
   // 注册鼠标事件监听
