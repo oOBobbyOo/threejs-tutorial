@@ -3,3 +3,8 @@ export enum Sky {
   dusk = 'dusk',
   night = 'night'
 }
+
+export type Animate = {
+  fun: (arg: any) => any
+  content: any
+}

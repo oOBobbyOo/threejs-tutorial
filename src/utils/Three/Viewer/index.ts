@@ -13,6 +13,7 @@ import {
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import Stats from 'three/addons/libs/stats.module.js'
 import SkyBoxs from '../SkyBoxs'
+import type { Animate } from '../type'
 
 export default class Viewer {
   public id: string
@@ -22,7 +23,9 @@ export default class Viewer {
   public renderer!: WebGLRenderer
   public controls!: OrbitControls
   public skyboxs!: SkyBoxs
+  public animateEventList: Animate[] = []
   public statsControls!: Stats
+  public statsUpdateObj: any = {}
   public raycaster!: Raycaster
   public mouse!: Vector2
   public isDestroy: boolean = false
@@ -48,8 +51,13 @@ export default class Viewer {
       if (this.isDestroy) return
       requestAnimationFrame(animate)
 
-      this.updateDom()
-      this.readerDom()
+      this.#updateDom()
+      this.#readerDom()
+
+      // 全局的公共动画函数，添加函数可同步执行
+      this.animateEventList.forEach((event) => {
+        event.fun && event.content && event.fun(event.content)
+      })
     }
 
     animate()
@@ -151,26 +159,63 @@ export default class Viewer {
     this.raycaster = new Raycaster()
   }
 
-  // 渲染dom
-  readerDom() {
-    this.renderer?.render(this.scene, this.camera)
+  // 渲染DOM
+  #readerDom() {
+    this.renderer.render(this.scene, this.camera)
   }
 
-  // 更新dom
-  updateDom() {
+  // 更新DOM
+  #updateDom() {
     this.controls.update()
-    // 重置相机的宽高比
+    // 设置相机的宽高比
     this.camera.aspect =
       this.viewerDom.clientWidth / this.viewerDom.clientHeight // 摄像机视锥体的长宽比，通常是使用画布的宽/画布的高
     // 更新相机的投影矩阵
     this.camera.updateProjectionMatrix() // 在任何参数被改变以后必须被调用,来使得这些改变生效
-    // 重置渲染器的宽高比
+    // 设置渲染器的尺寸
     this.renderer.setSize(
       this.viewerDom.clientWidth,
       this.viewerDom.clientHeight
     )
     // 设置设备像素比
     this.renderer.setPixelRatio(window.devicePixelRatio)
+  }
+
+  // 销毁场景
+  destroy() {
+    this.scene.traverse((child: any) => {
+      if (child.material) {
+        child.material.dispose()
+      }
+      if (child.geometry) {
+        child.geometry.dispose()
+      }
+      child = null
+    })
+    this.renderer.forceContextLoss()
+    this.renderer.dispose()
+    this.scene.clear()
+
+    this.isDestroy = true
+  }
+
+  /**
+   * 添加全局的动画事件
+   * @param animate 函数加参数对象
+   * 传入对象 = {
+      fun: 函数名称,
+      content: 函数参数
+    }
+  */
+  addAnimate(animate: Animate) {
+    this.animateEventList.push(animate)
+  }
+
+  // 移除全局的动画事件
+  removeAnimate(animate: Animate) {
+    this.animateEventList.map((val, i) => {
+      if (val === animate) this.animateEventList.splice(i, 1)
+    })
   }
 
   // 添加坐标轴辅助器
@@ -182,9 +227,29 @@ export default class Viewer {
 
   // 添加性能状态监测
   addStats() {
-    if (!this.statsControls) return
-    this.statsControls = new Stats()
+    if (!this.statsControls) this.statsControls = new Stats()
     this.statsControls.dom.style.position = 'absolute'
     this.viewerDom.appendChild(this.statsControls.dom)
+
+    // 添加到动画
+    this.statsUpdateObj = {
+      fun: this.statsUpdate,
+      content: this.statsControls
+    }
+
+    this.addAnimate(this.statsUpdateObj)
+  }
+
+  // 更新性能状态监测
+  statsUpdate(statsControls: Stats) {
+    statsControls.update()
+  }
+
+  // 移除性能状态检测
+  removeStats() {
+    if (this.statsControls && this.statsUpdateObj) {
+      this.viewerDom.removeChild(this.statsControls.dom)
+      this.removeAnimate(this.statsUpdateObj)
+    }
   }
 }
