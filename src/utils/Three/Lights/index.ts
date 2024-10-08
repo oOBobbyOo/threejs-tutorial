@@ -19,7 +19,7 @@ export default class Lights {
    */
   addDirectionalLight(
     position = [200, 200, 200],
-    option = { color: 0xffffff }
+    option = { color: 'rgb(255,255,255)' }
   ) {
     const directionalLight = new DirectionalLight(this.viewer, position, option)
     this.lightList.push(directionalLight)
@@ -29,8 +29,8 @@ export default class Lights {
   /**
    * 添加环境光源
    */
-  addAmbientLight() {
-    const ambientLight = new AmbientLight(this.viewer)
+  addAmbientLight(option = { color: 'rgb(255,255,255)' }) {
+    const ambientLight = new AmbientLight(this.viewer, option)
     this.lightList.push(ambientLight)
     return ambientLight
   }

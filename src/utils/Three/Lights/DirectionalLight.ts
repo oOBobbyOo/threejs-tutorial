@@ -20,10 +20,10 @@ export default class DirectionalLight {
   constructor(
     _viewer: Viewer,
     position = [200, 200, 200],
-    option: LightOption = { color: 0xffffff }
+    option = { color: 'rgb(255,255,255)' }
   ) {
     this.viewer = _viewer
-    this.light = new THREE.DirectionalLight(option.color)
+    this.light = new THREE.DirectionalLight(new THREE.Color(option.color))
     this.setPosition(position)
     this.setOption(option)
     this.viewer.scene.add(this.light)
@@ -33,7 +33,7 @@ export default class DirectionalLight {
    * 设置灯光参数
    * @param option
    */
-  setOption(option: LightOption) {
+  setOption(option: LightOption = {}) {
     const light = this.light
     light.intensity = option.intensity || 2 // 光线强度
     light.castShadow = option.castShadow || true // 是否有阴影

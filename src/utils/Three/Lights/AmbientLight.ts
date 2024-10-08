@@ -15,9 +15,10 @@ export default class AmbientLight {
   protected viewer: Viewer
   public light: THREE.AmbientLight
 
-  constructor(_viewer: Viewer, option = { color: 0xfffff }) {
+  constructor(_viewer: Viewer, option = { color: 'rgb(255,255,255)' }) {
     this.viewer = _viewer
-    this.light = new THREE.AmbientLight(option.color)
+    const color = new THREE.Color(option.color)
+    this.light = new THREE.AmbientLight(color)
     this.setOption(option)
     this.viewer.scene.add(this.light)
   }
@@ -26,7 +27,7 @@ export default class AmbientLight {
    * 设置灯光参数
    * @param option
    */
-  setOption(option: LightOption) {
+  setOption(option: LightOption = {}) {
     this.light.intensity = option.intensity || 1 // 光线强度
   }
 }
