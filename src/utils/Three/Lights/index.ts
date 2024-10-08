@@ -1,6 +1,7 @@
 import type Viewer from '../Viewer'
 import AmbientLight from './AmbientLight'
 import DirectionalLight from './DirectionalLight'
+import HemisphereLight from './HemisphereLight'
 import PointLight from './PointLight'
 import RectAreaLight from './RectAreaLight'
 import SpotLight from './SpotLight'
@@ -68,5 +69,14 @@ export default class Lights {
     const pointLight = new SpotLight(this.viewer, position, option)
     this.lightList.push(pointLight)
     return pointLight
+  }
+
+  addHemisphereLight(
+    position = [0, 40, 0],
+    option = { color: 'rgb(255,255,255)' }
+  ) {
+    const hemisphereLight = new HemisphereLight(this.viewer, position, option)
+    this.lightList.push(hemisphereLight)
+    return hemisphereLight
   }
 }
