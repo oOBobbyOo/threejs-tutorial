@@ -31,6 +31,7 @@ export default class Lights {
 
   /**
    * 添加环境光源
+   * @param option
    */
   addAmbientLight(option = { color: 'rgb(255,255,255)' }) {
     const ambientLight = new AmbientLight(this.viewer, option)
@@ -40,6 +41,7 @@ export default class Lights {
 
   /**
    * 添加点光源
+   * @param position
    * @param option
    */
   addPointLight(position = [0, 40, 0], option = { color: 'rgb(255,255,255)' }) {
@@ -50,6 +52,7 @@ export default class Lights {
 
   /**
    * 添加矩形光源
+   * @param position
    * @param option
    */
   addRectAreaLight(
@@ -63,6 +66,7 @@ export default class Lights {
 
   /**
    * 添加锥形光源
+   * @param position
    * @param option
    */
   addSpotLight(position = [0, 40, 0], option = { color: 'rgb(255,255,255)' }) {
@@ -71,6 +75,11 @@ export default class Lights {
     return pointLight
   }
 
+  /**
+   * 添加锥形光源
+   * @param position
+   * @param option
+   */
   addHemisphereLight(
     position = [0, 40, 0],
     option = { color: 'rgb(255,255,255)' }
@@ -78,5 +87,13 @@ export default class Lights {
     const hemisphereLight = new HemisphereLight(this.viewer, position, option)
     this.lightList.push(hemisphereLight)
     return hemisphereLight
+  }
+
+  /**
+   * 移除灯光
+   * @param light 灯光
+   */
+  removeLight(light: any) {
+    this.viewer.scene.remove(light)
   }
 }
