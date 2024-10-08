@@ -3,6 +3,7 @@ import AmbientLight from './AmbientLight'
 import DirectionalLight from './DirectionalLight'
 import PointLight from './PointLight'
 import RectAreaLight from './RectAreaLight'
+import SpotLight from './SpotLight'
 
 export default class Lights {
   protected viewer: Viewer
@@ -57,5 +58,15 @@ export default class Lights {
     const rectAreaLight = new RectAreaLight(this.viewer, position, option)
     this.lightList.push(rectAreaLight)
     return rectAreaLight
+  }
+
+  /**
+   * 添加锥形光源
+   * @param option
+   */
+  addSpotLight(position = [0, 40, 0], option = { color: 'rgb(255,255,255)' }) {
+    const pointLight = new SpotLight(this.viewer, position, option)
+    this.lightList.push(pointLight)
+    return pointLight
   }
 }
