@@ -8,3 +8,5 @@ export type Animate = {
   fun: (arg: any) => any
   content: any
 }
+
+export type CallbackFn<T = any> = (arg: T) => any
