@@ -9,4 +9,6 @@ export type Animate = {
   content: any
 }
 
+export type EventName =  keyof HTMLElementEventMap
+
 export type CallbackFn<T = any> = (arg: T) => any

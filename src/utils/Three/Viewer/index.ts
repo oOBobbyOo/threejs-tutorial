@@ -2,18 +2,18 @@ import {
   AxesHelper,
   Cache,
   PerspectiveCamera,
-  Raycaster,
   Scene,
   SRGBColorSpace,
-  Vector2,
   WebGLRenderer
 } from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import Stats from 'three/addons/libs/stats.module.js'
 
-import type { Animate } from '../type'
+import type { Animate, CallbackFn, EventName } from '../type'
+
 import SkyBoxs from '../SkyBoxs'
 import Lights from '../Lights'
+import RaycasterEvent from '../RaycasterEvent'
 
 export default class Viewer {
   public id: string
@@ -27,8 +27,7 @@ export default class Viewer {
   public animateEventList: Animate[] = []
   public statsControls!: Stats
   public statsUpdateObj: any = {}
-  public raycaster!: Raycaster
-  public mouse!: Vector2
+  public raycasterEvent?: RaycasterEvent
   public isDestroy: boolean = false
 
   constructor(id: string) {
@@ -44,9 +43,6 @@ export default class Viewer {
     this.#initCamera()
     this.#initControl()
     this.#initSkybox()
-    this.#initRaycaster()
-
-    this.mouse = new Vector2()
 
     const animate = () => {
       if (this.isDestroy) return
@@ -137,11 +133,6 @@ export default class Viewer {
     if (!this.lights) {
       this.lights = new Lights(this)
     }
-  }
-
-  // 注册鼠标事件监听
-  #initRaycaster() {
-    this.raycaster = new Raycaster()
   }
 
   // 渲染DOM
@@ -236,5 +227,18 @@ export default class Viewer {
       this.viewerDom.removeChild(this.statsControls.dom)
       this.removeAnimate(this.statsUpdateObj)
     }
+  }
+
+  // 开启鼠标事件
+  startRaycasterEvent(eventName: EventName, callback: CallbackFn) {
+    if (!this.raycasterEvent) {
+      this.raycasterEvent = new RaycasterEvent(this, eventName, callback)
+    }
+    this.raycasterEvent.startSelect()
+  }
+
+  // 关闭鼠标事件
+  stopRaycasterEvent() {
+    this.raycasterEvent?.stopSelect()
   }
 }
